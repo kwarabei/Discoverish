@@ -1,0 +1,162 @@
+definitions:
+  requests.UserDeleteRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+    required:
+    - id
+    type: object
+  requests.UserSignUpRequest:
+    properties:
+      username:
+        example: john_doe
+        type: string
+    required:
+    - username
+    type: object
+  requests.UserUpdateRequest:
+    properties:
+      about:
+        example: Brief description
+        type: string
+      first_name:
+        example: John
+        type: string
+      id:
+        type: integer
+      last_name:
+        example: Doe
+        type: string
+      position:
+        example: Frontend Developer
+        type: string
+      qualification:
+        example: Middle
+        type: string
+      skillset:
+        example:
+        - Javascript
+        - Typescript
+        - Vue
+        items:
+          type: string
+        type: array
+    type: object
+info:
+  contact: {}
+  description: REST API for Discoverish application
+  title: Discoverish API
+  version: "1.0"
+paths:
+  /v1/users/:
+    delete:
+      consumes:
+      - application/json
+      description: delete user account
+      parameters:
+      - description: Info required to delete user's account
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: User Delete
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: get a list of users
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: User GetList
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: update user account
+      parameters:
+      - description: User info for update
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            type: string
+      summary: User Update
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: create user account
+      parameters:
+      - description: User info for registration
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserSignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+      summary: User SignUp
+      tags:
+      - users
+  /v1/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get one user account
+      parameters:
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: User Get
+      tags:
+      - users
+swagger: "2.0"
